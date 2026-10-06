@@ -1,0 +1,101 @@
+common:
+  img_topic: "/camera/image"
+  lid_topic: "/livox/lidar"
+  imu_topic: "/livox/imu"
+  leg_topic: "/g1/joint_state"
+  img_en: 1
+  lidar_en: 1
+  leg_en: 1
+  en_auto_mode: true
+  gravity_align_en: true
+  debug_output_en: false
+
+extrin_calib:
+  extrinsic_T: [-0.011, -0.02329, 0.04412]
+  extrinsic_R: [1, 0, 0, 0, 1, 0, 0, 0, 1]
+  Rcl: [0.021566, 0.999765, 0.002211,
+        0.009657, -0.002419, 0.999951,
+        0.999721, -0.021544, -0.009706] 
+  Pcl: [0.040325, 0.096927, -0.065726]   #represents R,p of LiDAR frame w.r.t. Camera frame.
+  extR_urdf2Lid: [1.0, 0.0, 0.0,
+                  0.0, -1.0, 0.0,
+                  0.0, 0.0, -1.0]
+
+time_offset: 
+  lidar_time_offset: 0.0
+  imu_time_offset: 0.0
+  img_time_offset: 0.0
+  leg_time_offset: 0.0
+  exposure_time_init: 0.0
+
+preprocess:
+  point_filter_num: 1
+  filter_size_surf: 0.5
+  lidar_type: 1 # Livox LiDAR
+  scan_line: 4
+  blind: 0.5
+
+vio:
+  max_iterations: 5
+  outlier_threshold: 1000
+  img_point_cov: 1000 # 100 1000
+  patch_size: 8
+  patch_pyrimid_level: 4
+  normal_en: true
+  raycast_en: false
+  inverse_composition_en: false
+  exposure_estimate_en: true
+  inv_expo_cov: 0.1
+
+imu:
+  imu_en: true
+  imu_int_frame: 30 # IMU init frames
+  acc_cov: 0.8 # 0.2
+  gyr_cov: 0.5 # 0.5
+
+lio:
+  max_iterations: 5
+  dept_err: 0.02
+  beam_err: 0.05
+  min_eigen_value: 0.005 # 0.005
+  voxel_size: 0.5
+  max_layer: 2
+  max_points_num: 50
+  layer_init_num: [5, 5, 5, 5, 5]
+
+kio:
+  ankle2sole_model: 0.085
+  vel_cnt_cov: [0.5, 0.5, 0.2]
+  pos_cnt_cov: 0.5 # 0.01, 0.3, 0.5
+  en_adapt_cov: true
+  height2terr: 0   # 0: default (contact points), 1: init terrain, 2: last terrain by LiD.
+
+# run seq: d_conta_thres: 22, scale_k_sw2st: 34, filter_size_surf: 0.3/0.2
+contact:
+  d_raise_thres: 13 # general: 13
+  d_conta_thres: 25 # general: 15, 25
+  add_contact_det_num: 5 # additional contact det. 5, 10
+  d_raise_count_thres: 5 # general: 5, d_raise > x, last count
+  d_conta_count_thres: 5 # 1, 2, 5
+  d_swsta_thres: 5 # d < 5 last x frames, whether addtional contact det. 
+  scale_k_sw2st: 13 # scale div between stance and swing. general: 13, sport: 24
+  d_init: true # true: use d_raise to init, false: use foot2gnd to init. (set to false if minor disturbances in the initial gait. eg: outdoor01_mvs)
+
+local_map:  
+  map_sliding_en: false
+  half_map_size: 100
+  sliding_thresh: 8
+
+publish:
+  dense_map_en: true
+  pub_effect_point_en: false 
+  pub_plane_en: false
+  pub_scan_num: 1
+  blind_rgb_points: 0.0
+
+pcd_save:
+  pcd_save_en: false
+  filter_size_pcd: 0.05
+  interval: -1
+  # how many LiDAR frames saved in each pcd file;
+  # -1 : all frames will be saved in ONE pcd file, may lead to memory crash when having too much frames.
