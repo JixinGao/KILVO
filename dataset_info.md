@@ -24,12 +24,13 @@ width*height: 1280*1024
 ```
 
 ## Extrinsic Calibration
-`Rcl, pcl`: LiDAR frame w.r.t. Camera frame
+The extrinsic parameters represent the LiDAR frame with respect to the corresponding sensor frame.
 
-| Frame | Rcl | Pcl |
-| --- | :---: | :---: |
-| `Mid360`-> `Realsense` | [0.001873 0.999987 0.004806 <br> -0.026643 -0.004754 0.999634 <br> 0.999643 -0.002001 0.026634] | [0.038862, 0.120302, -0.121405] |
-| `Mid360`->`MVS` | [0.021566 0.999765 0.002211 <br> 0.009657 -0.002419 0.999951 <br> 0.999721 -0.021544 -0.009706] | [0.040325, 0.096927, -0.065726] |
+| Transform | Frame | Rotation Matrix | Translation |
+| --- | --- | :---: | :---: |
+| `Rcl`, `Pcl` | `Mid360` → `Realsense` | [0.001873 0.999987 0.004806 <br> -0.026643 -0.004754 0.999634 <br> 0.999643 -0.002001 0.026634] | [0.038862, 0.120302, -0.121405] |
+| `Rcl`, `Pcl` | `Mid360` → `MVS` | [0.021566 0.999765 0.002211 <br> 0.009657 -0.002419 0.999951 <br> 0.999721 -0.021544 -0.009706] | [0.040325, 0.096927, -0.065726] |
+| `Ril`, `Pil` | `Mid360` → `IMU` | [1 0 0 <br> 0 1 0 <br> 0 0 1] | [-0.011, -0.02329, 0.04412] |
 
 # Ground Truth
 We use the mechanical module to manually record the start and end positions, obtaining the relative end-to-end error as the ground truth.
