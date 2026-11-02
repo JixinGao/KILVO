@@ -102,7 +102,6 @@ public:
   double blind_rgb_points = 0.0;
   double last_timestamp_lidar = -1.0, last_timestamp_imu = -1.0, last_timestamp_img = -1.0, last_timestamp_leg = -1.0;
   double filter_size_surf_min = 0;
-  double filter_size_pcd = 0;
   double _first_frame_time = 0.0;
   double match_time = 0, solve_time = 0, solve_const_H_time = 0;
 
@@ -195,7 +194,6 @@ public:
   VIOManagerPtr vio_manager;
   KIOManagerPtr kio_manager;
 
-  ros::Publisher plane_pub;
   ros::Subscriber sub_pcl;
   ros::Subscriber sub_imu;
   ros::Subscriber sub_img;

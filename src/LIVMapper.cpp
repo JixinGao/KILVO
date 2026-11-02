@@ -113,7 +113,6 @@ void LIVMapper::readParameters(ros::NodeHandle &nh)
 
   nh.param<int>("pcd_save/interval", pcd_save_interval, -1);
   nh.param<bool>("pcd_save/pcd_save_en", pcd_save_en, false);
-  nh.param<double>("pcd_save/filter_size_pcd", filter_size_pcd, 0.5);
   nh.param<vector<double>>("extrin_calib/extrinsic_T", extrinT, vector<double>());
   nh.param<vector<double>>("extrin_calib/extrinsic_R", extrinR, vector<double>());
   nh.param<vector<double>>("extrin_calib/Pcl", cameraextrinT, vector<double>());
@@ -236,7 +235,6 @@ void LIVMapper::initializeSubscribersAndPublishers(ros::NodeHandle &nh, image_tr
   pubLaserCloudEffect = nh.advertise<sensor_msgs::PointCloud2>("/cloud_effected", 100);
   pubOdomAftMapped = nh.advertise<nav_msgs::Odometry>("/aft_mapped_to_init", 10);
   pubPath = nh.advertise<nav_msgs::Path>("/path", 10);
-  plane_pub = nh.advertise<visualization_msgs::Marker>("/planner_normal", 1);
   pubImage = it.advertise("/rgb_img", 1);
   voxelmap_manager->voxel_map_pub_= nh.advertise<visualization_msgs::MarkerArray>("/planes", 10000);
   kio_manager->initPublisher(nh);
